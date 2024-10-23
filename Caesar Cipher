@@ -1,0 +1,26 @@
+def caesar_cipher_encrypt(plaintext, shift):
+    """Encrypts the plaintext using Caesar Cipher."""
+    result = ""
+    for char in plaintext:
+        if char.isalpha():
+            shift_base = ord('A') if char.isupper() else ord('a')
+            result += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        else:
+            result += char  # Non-alphabetic characters remain unchanged
+    return result
+
+def caesar_cipher_decrypt(ciphertext, shift):
+    """Decrypts the ciphertext using Caesar Cipher."""
+    return caesar_cipher_encrypt(ciphertext, -shift)  # Decrypt by reversing the shift
+
+# Hardcoded values
+plaintext = "HELLO WORLD"
+shift = 3
+
+# Encryption
+encrypted_text = caesar_cipher_encrypt(plaintext, shift)
+print(f"Encrypted Text: {encrypted_text}")
+
+# Decryption
+decrypted_text = caesar_cipher_decrypt(encrypted_text, shift)
+print(f"Decrypted Text: {decrypted_text}")
