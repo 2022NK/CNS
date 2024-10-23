@@ -2,7 +2,7 @@
 nmap –p 80 192.168.0.1
 
 #OS finger printing Nmap can detect the operating system running on the target
-sudo nmap -O <target-ip>
+nmap -O <target-ip>
 
 #Ping Scan To perform a ping scan (just to check which hosts are up):
 nmap -sn 192.168.1.0/24
