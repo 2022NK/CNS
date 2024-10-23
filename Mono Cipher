@@ -1,0 +1,17 @@
+import string
+import random  # Missing import
+
+# Encryption and Decryption functions
+def encrypt(text, key): return ''.join([key.get(c, c) for c in text.lower()])
+def decrypt(text, key): return ''.join([{v: k for k, v in key.items()}.get(c, c) for c in text.lower()])
+
+# Generate random substitution alphabet
+key = dict(zip(string.ascii_lowercase, random.sample(string.ascii_lowercase, 26)))
+
+# Example usage
+plaintext = "hello"
+ciphertext = encrypt(plaintext, key)
+decrypted = decrypt(ciphertext, key)
+
+print(f"Key: {key}")
+print(f"Plaintext: {plaintext}, Ciphertext: {ciphertext}, Decrypted: {decrypted}")
