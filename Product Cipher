@@ -1,0 +1,53 @@
+def caesar_cipher(text, shift):
+    result = ""
+    for char in text:
+        if char.isalpha():
+            shift_base = ord('A') if char.isupper() else ord('a')
+            result += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        else:
+            result += char  # Non-alphabetic characters remain unchanged
+    return result
+
+def columnar_transposition(text, key, decrypt=False):
+    n = len(key)
+    columns = [''] * n
+    column_length = len(text) // n + (1 if len(text) % n else 0)
+
+    if decrypt:
+        # Split the text back into columns based on the key order
+        sorted_key_indices = sorted(range(n), key=lambda x: key[x])
+        for i in range(n):
+            columns[sorted_key_indices[i]] = text[i * column_length: (i + 1) * column_length]
+        return ''.join(columns[i][j] for j in range(column_length) for i in range(n) if j < len(columns[i]))
+    else:
+        # Fill columns based on the key order
+        for index, char in enumerate(text):
+            columns[index % n] += char
+        
+        # Sort columns based on the key
+        return ''.join(columns[i] for i in sorted(range(n), key=lambda k: key[k]))
+
+def product_cipher(text, caesar_shift, transposition_key, decrypt=False):
+    if decrypt:
+        # Step 1: Reverse Columnar Transposition
+        text = columnar_transposition(text, transposition_key, decrypt=True)
+        # Step 2: Reverse Caesar Cipher
+        return caesar_cipher(text, -caesar_shift)
+    else:
+        # Step 1: Apply Caesar Cipher
+        text = caesar_cipher(text, caesar_shift)
+        # Step 2: Apply Columnar Transposition
+        return columnar_transposition(text, transposition_key)
+
+# Example usage
+plaintext = "HELLOTHISISPRODUCTCIPHER"
+caesar_shift = 3  # Shift for Caesar cipher
+transposition_key = "312"  # Key for Columnar Transposition Cipher
+
+# Encryption
+encrypted_text = product_cipher(plaintext, caesar_shift, transposition_key)
+print(f"Encrypted Text: {encrypted_text}")
+
+# Decryption
+decrypted_text = product_cipher(encrypted_text, caesar_shift, transposition_key, decrypt=True)
+print(f"Decrypted Text: {decrypted_text}")
