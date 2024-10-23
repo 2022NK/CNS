@@ -1,0 +1,26 @@
+# Function to decrypt the Vigenère cipher text using the key
+def vigenere_decrypt(cipher_text, key):
+    decrypted_text = []
+    key_length = len(key)
+    
+    for i, char in enumerate(cipher_text):
+        if char.isalpha():  # Only decrypt alphabetic characters
+            is_upper = char.isupper()
+            shift = ord(key[i % key_length].upper()) - ord('A')
+            base = ord('A') if is_upper else ord('a')
+            
+            # Decrypting by shifting characters backwards
+            decrypted_char = chr((ord(char) - base - shift) % 26 + base)
+            decrypted_text.append(decrypted_char)
+        else:
+            decrypted_text.append(char)  # Keep non-alphabetic characters unchanged
+    
+    return ''.join(decrypted_text)
+
+# Example usage
+cipher_text = "LXFOPVEFRNHR"
+key = "LEMON"
+
+# Decrypt the cipher text
+decrypted_message = vigenere_decrypt(cipher_text, key)
+print("Decrypted Message:", decrypted_message)
