@@ -1,0 +1,6 @@
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int g0/0
+Router(config-if)#ip address 192.168.1.1 255.255.255.0
+Router(config-if)#no shut
